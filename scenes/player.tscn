@@ -2,16 +2,28 @@
 
 [ext_resource type="Script" uid="uid://c1vrhty77xvxj" path="res://scripts/entities/player.gd" id="1_player"]
 [ext_resource type="Texture2D" uid="uid://d3duaecvve2jh" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_000.png" id="2_4r5pv"]
+[ext_resource type="Texture2D" uid="uid://u1k8715skssl" path="res://assets/sprites/characters/necromancer_chibi/attack/0_Necromancer_of_the_Shadow_Slashing_000.png" id="2_apa73"]
 [ext_resource type="Texture2D" uid="uid://dlasuebpm3o18" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_001.png" id="3_60mlk"]
+[ext_resource type="Texture2D" uid="uid://buqxbes7fnv5r" path="res://assets/sprites/characters/necromancer_chibi/attack/0_Necromancer_of_the_Shadow_Slashing_001.png" id="3_74r1k"]
+[ext_resource type="Texture2D" uid="uid://ch60vusbgy3ph" path="res://assets/sprites/characters/necromancer_chibi/attack/0_Necromancer_of_the_Shadow_Slashing_002.png" id="4_8svfe"]
 [ext_resource type="Texture2D" uid="uid://ulct0muge0nx" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_002.png" id="4_i4ail"]
+[ext_resource type="Texture2D" uid="uid://o0ymj3wrei2c" path="res://assets/sprites/characters/necromancer_chibi/attack/0_Necromancer_of_the_Shadow_Slashing_003.png" id="5_2a3c5"]
 [ext_resource type="Texture2D" uid="uid://dkhb3clhvl43i" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_003.png" id="5_a38lo"]
 [ext_resource type="Texture2D" uid="uid://boqu7srwtfqfy" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_004.png" id="6_4ni07"]
+[ext_resource type="Texture2D" uid="uid://dh7fqajpjnaaf" path="res://assets/sprites/characters/necromancer_chibi/attack/0_Necromancer_of_the_Shadow_Slashing_004.png" id="6_42b1b"]
+[ext_resource type="Texture2D" uid="uid://cy5hd51gt1dji" path="res://assets/sprites/characters/necromancer_chibi/attack/0_Necromancer_of_the_Shadow_Slashing_005.png" id="7_h7ic4"]
 [ext_resource type="Texture2D" uid="uid://b2d5ogh1j0usu" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_005.png" id="7_l71n6"]
+[ext_resource type="Texture2D" uid="uid://nj3cm0euiyjc" path="res://assets/sprites/characters/necromancer_chibi/attack/0_Necromancer_of_the_Shadow_Slashing_006.png" id="8_au7lq"]
 [ext_resource type="Texture2D" uid="uid://c18kxsg44evap" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_006.png" id="8_ke2ow"]
+[ext_resource type="Texture2D" uid="uid://d3n6ad7bt1nu1" path="res://assets/sprites/characters/necromancer_chibi/attack/0_Necromancer_of_the_Shadow_Slashing_007.png" id="9_nubpm"]
 [ext_resource type="Texture2D" uid="uid://oljyemvij623" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_007.png" id="9_ujl30"]
 [ext_resource type="Texture2D" uid="uid://dbrebkip5wt3p" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_008.png" id="10_31cv2"]
+[ext_resource type="Texture2D" uid="uid://c8dq72276uico" path="res://assets/sprites/characters/necromancer_chibi/attack/0_Necromancer_of_the_Shadow_Slashing_008.png" id="10_ua5cf"]
+[ext_resource type="Texture2D" uid="uid://dwr3srjmiwqp1" path="res://assets/sprites/characters/necromancer_chibi/attack/0_Necromancer_of_the_Shadow_Slashing_009.png" id="11_51ujp"]
 [ext_resource type="Texture2D" uid="uid://odenbjly2yly" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_009.png" id="11_pf23h"]
 [ext_resource type="Texture2D" uid="uid://c0prgw0fx26x" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_010.png" id="12_dt7fs"]
+[ext_resource type="Texture2D" uid="uid://dwbbqg3iqxpf0" path="res://assets/sprites/characters/necromancer_chibi/attack/0_Necromancer_of_the_Shadow_Slashing_010.png" id="12_tk41t"]
+[ext_resource type="Texture2D" uid="uid://baxkpfe81lt1y" path="res://assets/sprites/characters/necromancer_chibi/attack/0_Necromancer_of_the_Shadow_Slashing_011.png" id="13_fuw3a"]
 [ext_resource type="Texture2D" uid="uid://qd5oq1uopv7q" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_011.png" id="13_wqfne"]
 [ext_resource type="Texture2D" uid="uid://gp5tvkgkn6lp" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_012.png" id="14_wnwbv"]
 [ext_resource type="Texture2D" uid="uid://bupjsh58rqncy" path="res://assets/sprites/characters/necromancer_chibi/idle/0_Necromancer_of_the_Shadow_Idle_013.png" id="15_gl8cc"]
@@ -50,6 +62,47 @@ region = Rect2(0, 0, 900, 900)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tuyoq"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_apa73")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_74r1k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_8svfe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_2a3c5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_42b1b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_h7ic4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_au7lq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_nubpm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ua5cf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_51ujp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_tk41t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_fuw3a")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 12.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hax0n")
@@ -197,9 +250,9 @@ move_speed = null
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1126219591]
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_tuyoq")
-animation = &"walk"
-frame = 18
-frame_progress = 0.336192
+animation = &"attack"
+frame = 11
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=767503242]
 shape = SubResource("CircleShape2D_1")

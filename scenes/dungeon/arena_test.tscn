@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://test_arena"]
+[gd_scene load_steps=3 format=3 uid="uid://test_arena"]
 
 [ext_resource type="PackedScene" uid="uid://b8yqm5xvnw7r8" path="res://scenes/player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://scripts/systems/enemy_spawner.gd" id="2_spawner"]
 
 [node name="ArenaTest" type="Node2D"]
 
@@ -13,3 +14,6 @@ color = Color(0.15, 0.15, 0.2, 1)
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 position = Vector2(0, 0)
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("2_spawner")
