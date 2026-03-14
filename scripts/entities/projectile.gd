@@ -5,6 +5,7 @@ class_name Projectile
 
 @export var speed: float = 400.0
 @export var max_range: float = 300.0
+@export var base_damage: float = 10.0
 
 var direction: Vector2 = Vector2.RIGHT
 var distance_traveled: float = 0.0
@@ -20,12 +21,20 @@ func _physics_process(delta):
 	if distance_traveled >= max_range:
 		queue_free()
 
+func _get_effective_damage() -> float:
+	var amp := 0.0
+	var gm = Autoloads.game_manager()
+	if gm and gm.stat_bonus_applier:
+		amp = gm.stat_bonus_applier.damage_amp
+	return base_damage * (1.0 + amp / 100.0)
+
 func _on_body_entered(body):
+	var effective_damage := _get_effective_damage()
 	# Handle collision with enemies
 	if body.is_in_group("enemy"):
 		if body.has_method("take_damage"):
-			body.take_damage(10)
+			body.take_damage(effective_damage)
 		queue_free()
 	elif body.has_method("take_damage"):
-		body.take_damage(10)
+		body.take_damage(effective_damage)
 		queue_free()

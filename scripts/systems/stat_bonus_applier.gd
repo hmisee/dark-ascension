@@ -20,6 +20,7 @@ var _shadow_base_stats: Dictionary = {}  # shadow instance -> Dictionary of base
 var damage_amp: float = 0.0
 var soul_bonus: float = 0.0
 var crit_chance: float = 0.0
+var resurrection_cooldown_multiplier: float = 1.0
 
 
 func register_player(player: Player) -> void:
@@ -52,6 +53,8 @@ func unregister_shadow(shadow: Shadow) -> void:
 ## Call this after any relic grid change or on level load.
 func apply_bonuses() -> void:
 	var bonuses: Dictionary = Autoloads.game_manager().relic_grid.calculate_all_bonuses()
+	var cd_reduce_pct := bonuses.get(Shard.StatType.COOLDOWN_REDUCTION, 0.0) as float
+	resurrection_cooldown_multiplier = maxf(0.1, 1.0 - cd_reduce_pct / 100.0)
 	_apply_to_player(bonuses)
 	_apply_to_shadows(bonuses)
 
@@ -68,11 +71,9 @@ func _apply_to_player(bonuses: Dictionary) -> void:
 	var move_pct := bonuses.get(Shard.StatType.MOVEMENT_SPEED, 0.0) as float
 	_player.move_speed = base_move * (1.0 + move_pct / 100.0)
 
-	# Cooldown reduction: percentage decrease (clamped so cooldown doesn't go negative)
-	var cd_reduce_pct := bonuses.get(Shard.StatType.COOLDOWN_REDUCTION, 0.0) as float
+	# Attack cooldown: attack speed percentage decrease (clamped so cooldown doesn't go negative)
 	var atk_speed_pct := bonuses.get(Shard.StatType.ATTACK_SPEED, 0.0) as float
-	var total_cd_reduce := cd_reduce_pct + atk_speed_pct
-	_player.attack_cooldown = base_cd * maxf(0.1, 1.0 - total_cd_reduce / 100.0)
+	_player.attack_cooldown = base_cd * maxf(0.1, 1.0 - atk_speed_pct / 100.0)
 
 	# Max health: flat addition
 	var hp_bonus := bonuses.get(Shard.StatType.MAX_HEALTH, 0.0) as float
@@ -93,14 +94,11 @@ func _apply_to_player(bonuses: Dictionary) -> void:
 
 
 func _apply_to_shadows(bonuses: Dictionary) -> void:
-	var cd_reduce_pct := bonuses.get(Shard.StatType.COOLDOWN_REDUCTION, 0.0) as float
 	var atk_speed_pct := bonuses.get(Shard.StatType.ATTACK_SPEED, 0.0) as float
 	var dmg_amp_pct := bonuses.get(Shard.StatType.DAMAGE_AMP, 0.0) as float
 	var heal_rate_bonus := bonuses.get(Shard.StatType.HEALING_RATE, 0.0) as float
 	var hp_bonus := bonuses.get(Shard.StatType.MAX_HEALTH, 0.0) as float
 	var move_pct := bonuses.get(Shard.StatType.MOVEMENT_SPEED, 0.0) as float
-
-	var total_cd_reduce := cd_reduce_pct + atk_speed_pct
 
 	for shadow in _shadows:
 		if not is_instance_valid(shadow):
@@ -109,9 +107,9 @@ func _apply_to_shadows(bonuses: Dictionary) -> void:
 		if base.is_empty():
 			continue
 
-		# Attack cooldown: percentage decrease
+		# Attack cooldown: attack speed percentage decrease
 		var base_cd := base["attack_cooldown"] as float
-		shadow.attack_cooldown = base_cd * maxf(0.1, 1.0 - total_cd_reduce / 100.0)
+		shadow.attack_cooldown = base_cd * maxf(0.1, 1.0 - atk_speed_pct / 100.0)
 
 		# Attack damage: percentage increase
 		var base_dmg := base["attack_damage"] as float

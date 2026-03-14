@@ -1,0 +1,264 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/entities/boss_wraith.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://souldrop001" path="res://scenes/soul_drop.tscn" id="soul_drop"]
+[ext_resource type="Texture2D" uid="uid://duedhn4ga0vvq" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_000.png" id="2_5kc64"]
+[ext_resource type="Texture2D" uid="uid://5mogcrwgas13" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_001.png" id="3_s7wei"]
+[ext_resource type="Texture2D" uid="uid://d38elxvo2s56l" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_002.png" id="4_xn3k8"]
+[ext_resource type="Texture2D" uid="uid://dlke26io7e1cv" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_003.png" id="5_2huet"]
+[ext_resource type="Texture2D" uid="uid://cxh3gwb7dew1h" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_004.png" id="6_0ui0n"]
+[ext_resource type="Texture2D" uid="uid://wlfs7b03ta0o" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_005.png" id="7_pxkt0"]
+[ext_resource type="Texture2D" uid="uid://cxcumc47qmjd" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_006.png" id="8_m3ivw"]
+[ext_resource type="Texture2D" uid="uid://derillsm7a6a5" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_007.png" id="9_ab2u3"]
+[ext_resource type="Texture2D" uid="uid://cfd4um84s3iyq" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_008.png" id="10_orhnj"]
+[ext_resource type="Texture2D" uid="uid://ivvjy8buodc2" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_009.png" id="11_vcs3f"]
+[ext_resource type="Texture2D" uid="uid://i7ugxwttopwp" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_010.png" id="12_u1bd6"]
+[ext_resource type="Texture2D" uid="uid://bp7cooqusdlkc" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_011.png" id="13_64m35"]
+[ext_resource type="Texture2D" uid="uid://d56p81gy2h1a" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_000.png" id="14_qb3kq"]
+[ext_resource type="Texture2D" uid="uid://b2jbt2iihpnn0" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_001.png" id="15_lj77e"]
+[ext_resource type="Texture2D" uid="uid://cg60kltea12u4" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_002.png" id="16_nt7kf"]
+[ext_resource type="Texture2D" uid="uid://d4gsacobptstr" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_003.png" id="17_5rwad"]
+[ext_resource type="Texture2D" uid="uid://cyp4p3ak0oaja" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_004.png" id="18_rygqp"]
+[ext_resource type="Texture2D" uid="uid://bemh6iwscx3m" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_005.png" id="19_1rixx"]
+[ext_resource type="Texture2D" uid="uid://yd366l1t50cs" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_006.png" id="20_tgs0k"]
+[ext_resource type="Texture2D" uid="uid://c7d7p3nyvml77" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_007.png" id="21_tjpmc"]
+[ext_resource type="Texture2D" uid="uid://c7epuy21isjfd" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_008.png" id="22_l4lm4"]
+[ext_resource type="Texture2D" uid="uid://bewn4xwvbqclu" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_009.png" id="23_q8rej"]
+[ext_resource type="Texture2D" uid="uid://dn0p34g0bj86t" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_010.png" id="24_fimpk"]
+[ext_resource type="Texture2D" uid="uid://6i2pt1o2h7a" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_011.png" id="25_qpw6d"]
+[ext_resource type="Texture2D" uid="uid://crqrontt1qyd" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_012.png" id="26_3c8m0"]
+[ext_resource type="Texture2D" uid="uid://bqj5k8vkucymc" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_013.png" id="27_ydk25"]
+[ext_resource type="Texture2D" uid="uid://cjdjhhjv5u70j" path="res://assets/sprites/enemies/wraith/death/Wraith_03_Dying_014.png" id="28_w3n0o"]
+[ext_resource type="Texture2D" uid="uid://cdfgfa8r7tmk1" path="res://assets/sprites/enemies/wraith/idle/Wraith_03_Idle_000.png" id="29_4sq5f"]
+[ext_resource type="Texture2D" uid="uid://byf0ptc0x85s8" path="res://assets/sprites/enemies/wraith/idle/Wraith_03_Idle_001.png" id="30_ljree"]
+[ext_resource type="Texture2D" uid="uid://cxupkilsjbtv5" path="res://assets/sprites/enemies/wraith/idle/Wraith_03_Idle_002.png" id="31_1kvrg"]
+[ext_resource type="Texture2D" uid="uid://vpfjlluvy8cj" path="res://assets/sprites/enemies/wraith/idle/Wraith_03_Idle_003.png" id="32_sblrc"]
+[ext_resource type="Texture2D" uid="uid://ckchrejyy2bv8" path="res://assets/sprites/enemies/wraith/idle/Wraith_03_Idle_004.png" id="33_yvkfq"]
+[ext_resource type="Texture2D" uid="uid://o6fm3goarty3" path="res://assets/sprites/enemies/wraith/idle/Wraith_03_Idle_005.png" id="34_15ygv"]
+[ext_resource type="Texture2D" uid="uid://ckikkbwasad3x" path="res://assets/sprites/enemies/wraith/idle/Wraith_03_Idle_006.png" id="35_3a0x1"]
+[ext_resource type="Texture2D" uid="uid://6f2p5cymae0x" path="res://assets/sprites/enemies/wraith/idle/Wraith_03_Idle_007.png" id="36_r2q31"]
+[ext_resource type="Texture2D" uid="uid://dnjcsmypiuwbc" path="res://assets/sprites/enemies/wraith/idle/Wraith_03_Idle_008.png" id="37_31mly"]
+[ext_resource type="Texture2D" uid="uid://8j77rd22op7t" path="res://assets/sprites/enemies/wraith/idle/Wraith_03_Idle_009.png" id="38_orof2"]
+[ext_resource type="Texture2D" uid="uid://xeo6xap8ckf3" path="res://assets/sprites/enemies/wraith/idle/Wraith_03_Idle_010.png" id="39_3ecqn"]
+[ext_resource type="Texture2D" uid="uid://jsbjn4nnf8h1" path="res://assets/sprites/enemies/wraith/idle/Wraith_03_Idle_011.png" id="40_owkqg"]
+[ext_resource type="Texture2D" uid="uid://dyiodq8fm0efl" path="res://assets/sprites/enemies/wraith/walk/Wraith_03_Moving Forward_000.png" id="41_jqik0"]
+[ext_resource type="Texture2D" uid="uid://dyxvlrwx3c3jl" path="res://assets/sprites/enemies/wraith/walk/Wraith_03_Moving Forward_001.png" id="42_lgfq7"]
+[ext_resource type="Texture2D" uid="uid://de6f3xaekamiw" path="res://assets/sprites/enemies/wraith/walk/Wraith_03_Moving Forward_002.png" id="43_8dai3"]
+[ext_resource type="Texture2D" uid="uid://y3duo013yv2q" path="res://assets/sprites/enemies/wraith/walk/Wraith_03_Moving Forward_003.png" id="44_7mimc"]
+[ext_resource type="Texture2D" uid="uid://4c26fb7statn" path="res://assets/sprites/enemies/wraith/walk/Wraith_03_Moving Forward_004.png" id="45_1hrk7"]
+[ext_resource type="Texture2D" uid="uid://c6cax18t3wwtx" path="res://assets/sprites/enemies/wraith/walk/Wraith_03_Moving Forward_005.png" id="46_drxrq"]
+[ext_resource type="Texture2D" uid="uid://kb0gru0c0m1i" path="res://assets/sprites/enemies/wraith/walk/Wraith_03_Moving Forward_006.png" id="47_nb23g"]
+[ext_resource type="Texture2D" uid="uid://cxo0n577ct28d" path="res://assets/sprites/enemies/wraith/walk/Wraith_03_Moving Forward_007.png" id="48_52bos"]
+[ext_resource type="Texture2D" uid="uid://6i1qr5axipj0" path="res://assets/sprites/enemies/wraith/walk/Wraith_03_Moving Forward_008.png" id="49_fakpu"]
+[ext_resource type="Texture2D" uid="uid://dre7ybm1mleah" path="res://assets/sprites/enemies/wraith/walk/Wraith_03_Moving Forward_009.png" id="50_bw0g5"]
+[ext_resource type="Texture2D" uid="uid://dnxf8q23ufbcs" path="res://assets/sprites/enemies/wraith/walk/Wraith_03_Moving Forward_010.png" id="51_fslqe"]
+[ext_resource type="Texture2D" uid="uid://dh20h5ug8k0bx" path="res://assets/sprites/enemies/wraith/walk/Wraith_03_Moving Forward_011.png" id="52_0vmms"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_boss_wraith"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_5kc64")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_s7wei")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_xn3k8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_2huet")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_0ui0n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_pxkt0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_m3ivw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ab2u3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_orhnj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_vcs3f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_u1bd6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_64m35")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_qb3kq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_lj77e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_nt7kf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_5rwad")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_rygqp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_1rixx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_tgs0k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_tjpmc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_l4lm4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_q8rej")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_fimpk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_qpw6d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_3c8m0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_ydk25")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_w3n0o")
+}],
+"loop": false,
+"name": &"death",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("29_4sq5f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_ljree")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_1kvrg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_sblrc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_yvkfq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_15ygv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_3a0x1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_r2q31")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_31mly")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_orof2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_3ecqn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_owkqg")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("41_jqik0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_lgfq7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_8dai3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_7mimc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_1hrk7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_drxrq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_nb23g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_52bos")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_fakpu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_bw0g5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_fslqe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_0vmms")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_boss_wraith"]
+radius = 16.0
+
+[node name="BossWraith" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 17
+script = ExtResource("1")
+soul_value = 75
+soul_drop_scene = ExtResource("soul_drop")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.15, 0.15)
+sprite_frames = SubResource("SpriteFrames_boss_wraith")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_boss_wraith")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -20.0
+offset_top = -30.0
+offset_right = 20.0
+offset_bottom = -25.0
+value = 100.0
+show_percentage = false
+
+[node name="HitArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+shape = SubResource("CircleShape2D_boss_wraith")

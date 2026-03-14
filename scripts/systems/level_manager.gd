@@ -15,14 +15,15 @@ signal level_failed
 
 var time_remaining: float = 0.0
 var state: LevelState = LevelState.INITIALIZING
-var boss: BossSkeleton = null
+var boss: Node2D = null
 var player: Player = null
 var enemy_spawner: EnemySpawner = null
 
 # Persists across scene reloads (static so it survives scene transitions)
 static var _saved_run_state: Dictionary = {}
 
-const BOSS_SCENE_PATH := "res://scenes/boss_skeleton.tscn"
+const BOSS_SKELETON_SCENE_PATH := "res://scenes/boss_skeleton.tscn"
+const BOSS_WRAITH_SCENE_PATH := "res://scenes/boss_wraith.tscn"
 const BOSS_LEVEL_SCENE_PATH := "res://scenes/dungeon/boss_level.tscn"
 const MAIN_MENU_SCENE_PATH := "res://scenes/main_menu.tscn"
 
@@ -58,6 +59,10 @@ func start_level() -> void:
 			enemy_spawner.process_mode = Node.PROCESS_MODE_INHERIT
 			break
 
+	# Reapply stat bonuses after run state (relic grid) is restored
+	if gm and gm.stat_bonus_applier:
+		gm.stat_bonus_applier.apply_bonuses()
+
 	time_remaining = survival_time
 	state = LevelState.WAVE_PHASE
 
@@ -79,28 +84,42 @@ func _start_boss_phase() -> void:
 		enemy_spawner.set_physics_process(false)
 	_clear_regular_enemies()
 
+	# Determine which boss to spawn based on current level
+	var gm = Autoloads.game_manager()
+	var level: int = gm.current_level if gm else 1
+	var boss_scene_path: String
+	if level == 2:
+		boss_scene_path = BOSS_WRAITH_SCENE_PATH
+	else:
+		# Default to BossSkeleton for level 1 or unexpected values
+		boss_scene_path = BOSS_SKELETON_SCENE_PATH
+
 	# Spawn boss at configured distance from player
-	var boss_scene := load(BOSS_SCENE_PATH) as PackedScene
+	var boss_scene := load(boss_scene_path) as PackedScene
 	if boss_scene:
-		boss = boss_scene.instantiate() as BossSkeleton
+		var boss_instance = boss_scene.instantiate()
+		boss = boss_instance
 		var spawn_angle := randf() * TAU
 		var player_pos: Vector2 = player.global_position if player else Vector2.ZERO
 		var spawn_offset := Vector2(cos(spawn_angle), sin(spawn_angle)) * boss_spawn_distance
-		boss.global_position = player_pos + spawn_offset
-		add_child(boss)
-		if not boss.boss_defeated.is_connected(_on_boss_defeated):
-			boss.boss_defeated.connect(_on_boss_defeated)
+		boss_instance.global_position = player_pos + spawn_offset
+		add_child(boss_instance)
+		if not boss_instance.boss_defeated.is_connected(_on_boss_defeated):
+			boss_instance.boss_defeated.connect(_on_boss_defeated)
 
 
 func _clear_regular_enemies() -> void:
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	for enemy in enemies:
-		if is_instance_valid(enemy) and not (enemy is BossSkeleton):
+		if is_instance_valid(enemy) and not (enemy is BossSkeleton) and not (enemy is BossWraith):
 			enemy.queue_free()
 
 
 func _on_boss_defeated() -> void:
-	# Boss killed = level complete
+	# Advance progression before completing the level
+	var gm = Autoloads.game_manager()
+	if gm:
+		gm.advance_level()
 	_on_level_complete()
 
 
@@ -118,7 +137,12 @@ func _on_level_complete() -> void:
 
 	# Pause the game tree so nothing moves in the background
 	get_tree().paused = true
-	_show_victory_popup()
+
+	# Show VictoryScreen if this was the final level, otherwise show post-level popup
+	if gm and gm.is_final_level():
+		_show_victory_screen()
+	else:
+		_show_post_level_screen()
 
 
 func _on_level_failed() -> void:
@@ -163,6 +187,15 @@ func _on_retry_pressed() -> void:
 	get_tree().change_scene_to_file(BOSS_LEVEL_SCENE_PATH)
 
 
+func _on_new_run_pressed() -> void:
+	get_tree().paused = false
+	var gm = Autoloads.game_manager()
+	if gm:
+		gm.start_new_run()
+	_saved_run_state = {}
+	get_tree().change_scene_to_file(BOSS_LEVEL_SCENE_PATH)
+
+
 func _on_menu_pressed() -> void:
 	get_tree().paused = false
 	_saved_run_state = {}
@@ -171,9 +204,23 @@ func _on_menu_pressed() -> void:
 
 # --- UI helpers ---
 
-func _show_victory_popup() -> void:
+func _show_victory_screen() -> void:
+	var screen := VictoryScreen.new()
+	screen.name = "VictoryScreen"
+	screen.process_mode = Node.PROCESS_MODE_ALWAYS
+	screen.new_run_pressed.connect(_on_new_run_pressed)
+	screen.menu_pressed.connect(_on_menu_pressed)
+
+	var canvas := CanvasLayer.new()
+	canvas.layer = 10
+	canvas.process_mode = Node.PROCESS_MODE_ALWAYS
+	canvas.add_child(screen)
+	add_child(canvas)
+
+
+func _show_post_level_screen() -> void:
 	var screen := Control.new()
-	screen.name = "VictoryPopup"
+	screen.name = "PostLevelScreen"
 	screen.set_anchors_preset(Control.PRESET_FULL_RECT)
 	screen.process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -205,17 +252,17 @@ func _show_victory_popup() -> void:
 	soul_label.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3))
 	vbox.add_child(soul_label)
 
+	var next_btn := Button.new()
+	next_btn.text = "Next Level"
+	next_btn.custom_minimum_size = Vector2(180, 44)
+	next_btn.pressed.connect(_on_continue_pressed)
+	vbox.add_child(next_btn)
+
 	var shop_btn := Button.new()
 	shop_btn.text = "Go to Shop"
 	shop_btn.custom_minimum_size = Vector2(180, 44)
 	shop_btn.pressed.connect(_on_shop_pressed)
 	vbox.add_child(shop_btn)
-
-	var menu_btn := Button.new()
-	menu_btn.text = "Main Menu"
-	menu_btn.custom_minimum_size = Vector2(180, 44)
-	menu_btn.pressed.connect(_on_menu_pressed)
-	vbox.add_child(menu_btn)
 
 	var canvas := CanvasLayer.new()
 	canvas.layer = 10

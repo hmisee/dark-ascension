@@ -20,5 +20,10 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		SoulEnergyManager.add_souls(soul_value)
+		var bonus := 0.0
+		var gm = Autoloads.game_manager()
+		if gm and gm.stat_bonus_applier:
+			bonus = gm.stat_bonus_applier.soul_bonus
+		var effective_souls := int(round(soul_value * (1.0 + bonus / 100.0)))
+		Autoloads.soul_energy_manager().add_souls(effective_souls)
 		queue_free()

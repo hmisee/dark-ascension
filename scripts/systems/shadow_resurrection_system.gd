@@ -31,7 +31,12 @@ func register_shadow(shadow: Shadow) -> void:
 func on_shadow_died(shadow_type: String) -> void:
 	if shadow_type not in resurrection_cooldowns:
 		return
-	_cooldown_remaining[shadow_type] = resurrection_cooldowns[shadow_type]
+	var base_cd: float = resurrection_cooldowns[shadow_type]
+	var gm := Autoloads.game_manager()
+	var effective_cd := base_cd
+	if gm.stat_bonus_applier:
+		effective_cd = base_cd * gm.stat_bonus_applier.resurrection_cooldown_multiplier
+	_cooldown_remaining[shadow_type] = effective_cd
 	_is_eligible[shadow_type] = false
 	shadow_died.emit(shadow_type)
 
