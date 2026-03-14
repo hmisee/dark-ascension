@@ -8,6 +8,8 @@ class_name Player
 @export var attack_cooldown: float = 1.0
 @export var attack_animation_duration: float = 0.3
 @export var max_health: float = 100.0
+@export var shadow_skeleton_scene: PackedScene = preload("res://scenes/shadow_skeleton.tscn")
+@export var shadow_wraith_scene: PackedScene = preload("res://scenes/shadow_wraith.tscn")
 
 @onready var animated_sprite = $AnimatedSprite2D
 
@@ -16,20 +18,26 @@ var last_direction: Vector2 = Vector2.RIGHT
 var is_playing_attack: bool = false
 var attack_animation_timer: float = 0.0
 var current_health: float
+var shadows: Array = []
 
 func _ready():
-	# Animation will be set up in Godot editor
 	if animated_sprite.sprite_frames != null:
 		animated_sprite.play("default")
-	
-	# Add to player group for enemy targeting
 	add_to_group("player")
-	
-	# Initialize health
 	current_health = max_health
-	
-	print("Player ready! Use WASD or Arrow keys to move")
-	print("Aim with mouse cursor - Auto-attacking every %.1f seconds" % attack_cooldown)
+	# Spawn shadows after one frame so the scene tree is ready
+	call_deferred("spawn_shadows")
+
+func spawn_shadows():
+	_spawn_shadow(shadow_skeleton_scene)
+	_spawn_shadow(shadow_wraith_scene)
+
+func _spawn_shadow(scene: PackedScene):
+	var shadow = scene.instantiate()
+	shadow.player = self
+	shadow.global_position = global_position
+	get_parent().add_child(shadow)
+	shadows.append(shadow)
 
 func _physics_process(delta):
 	handle_movement()

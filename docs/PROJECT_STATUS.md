@@ -15,9 +15,14 @@
 - Character flips direction based on movement
 - WASD/Arrow key controls implemented
 
-### Combat System
-- Automatic attack system (Vampire Survivors style)
-- Mouse cursor aiming for 360-degree shooting
+### Shadow Companion System
+- Shadow Skeleton: melee companion, positions in front of player
+- Shadow Wraith: ranged companion, positions behind player
+- Both auto-attack nearest enemy independently
+- Teal tint (Color 0.3, 1.0, 0.9) distinguishes shadows from enemies
+- Formation rotates with player aim direction
+- Shadows have health bars and take damage
+- Auto-spawned at game start
 - Projectile system with teal visual effect
 - Mid-range projectile (300 pixels)
 - Auto-attack every 1 second
