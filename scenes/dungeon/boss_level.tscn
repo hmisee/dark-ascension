@@ -1,19 +1,35 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/systems/level_manager.gd" id="1_lvlmgr"]
 [ext_resource type="PackedScene" uid="uid://b8yqm5xvnw7r8" path="res://scenes/player.tscn" id="2_player"]
 [ext_resource type="Script" path="res://scripts/systems/enemy_spawner.gd" id="3_spawner"]
 [ext_resource type="Script" path="res://scripts/ui/survival_timer_hud.gd" id="4_timer"]
+[ext_resource type="Shader" path="res://assets/shaders/dungeon_floor_bg.gdshader" id="5_bgshader"]
+[ext_resource type="Script" path="res://scripts/systems/scrolling_background.gd" id="6_bgscript"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bg"]
+shader = ExtResource("5_bgshader")
+shader_parameter/camera_offset = Vector2(0, 0)
+shader_parameter/tile_pixel_size = 96.0
+shader_parameter/base_color = Color(0.1, 0.08, 0.14, 1)
+shader_parameter/grout_color = Color(0.05, 0.04, 0.07, 1)
+shader_parameter/accent_color = Color(0.22, 0.12, 0.32, 1)
 
 [node name="BossLevel" type="Node2D"]
 script = ExtResource("1_lvlmgr")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -640.0
-offset_top = -360.0
-offset_right = 640.0
-offset_bottom = 360.0
-color = Color(0.1, 0.08, 0.15, 1)
+[node name="BGLayer" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="Background" type="ColorRect" parent="BGLayer"]
+material = SubResource("ShaderMaterial_bg")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_bgscript")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(0, 0)

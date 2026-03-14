@@ -19,10 +19,21 @@ func _ready() -> void:
 func _build_ui() -> void:
 	set_anchors_preset(PRESET_FULL_RECT)
 
-	# Dark background
+	# Animated dark background using the menu shader
 	var bg := ColorRect.new()
-	bg.color = Color(0.08, 0.06, 0.12, 1.0)
 	bg.set_anchors_preset(PRESET_FULL_RECT)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var shader := load("res://assets/shaders/menu_bg.gdshader") as Shader
+	if shader:
+		var mat := ShaderMaterial.new()
+		mat.shader = shader
+		mat.set_shader_parameter("base_color", Color(0.06, 0.05, 0.09, 1.0))
+		mat.set_shader_parameter("fog_color", Color(0.18, 0.12, 0.28, 1.0))
+		mat.set_shader_parameter("magic_color", Color(0.40, 0.15, 0.55, 1.0))
+		mat.set_shader_parameter("time_scale", 0.04)
+		bg.material = mat
+	else:
+		bg.color = Color(0.08, 0.06, 0.12, 1.0)
 	add_child(bg)
 
 	var margin := MarginContainer.new()
