@@ -14,5 +14,14 @@ func _ready():
 	update_health_bar()
 
 func die():
+	is_dead = true
+	velocity = Vector2.ZERO
+	_spawn_soul_drop()
+	# Play death animation before signaling defeat
+	if animated_sprite.sprite_frames and animated_sprite.sprite_frames.has_animation("death"):
+		animated_sprite.play("death")
+		await animated_sprite.animation_finished
+	# Brief pause to let the moment land
+	await get_tree().create_timer(0.6).timeout
 	boss_defeated.emit()
-	super.die()
+	queue_free()

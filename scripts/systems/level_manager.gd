@@ -116,14 +116,34 @@ func _clear_regular_enemies() -> void:
 
 
 func _on_boss_defeated() -> void:
-	# Advance progression before completing the level
 	var gm = Autoloads.game_manager()
+
+	# Auto-collect the boss's soul drop (game pauses so player can't walk over it)
+	if boss and is_instance_valid(boss):
+		var bonus := 0.0
+		if gm and gm.stat_bonus_applier:
+			bonus = gm.stat_bonus_applier.soul_bonus
+		var effective_souls := int(round(boss.soul_value * (1.0 + bonus / 100.0)))
+		Autoloads.soul_energy_manager().add_souls(effective_souls)
+		# Prevent the normal soul drop from spawning
+		boss.soul_value = 0
+
+	# Auto-collect a random shard from the pool
+	var shard_name := ""
+	if gm and gm.shard_inventory:
+		var pool := ShardPool.get_all_shards()
+		if pool.size() > 0:
+			var random_shard := Shard.deserialize(pool[randi() % pool.size()].serialize())
+			shard_name = random_shard.shard_name
+			gm.shard_inventory.add_shard(random_shard)
+
+	# Advance progression before completing the level
 	if gm:
 		gm.advance_level()
-	_on_level_complete()
+	_on_level_complete(shard_name)
 
 
-func _on_level_complete() -> void:
+func _on_level_complete(shard_name: String = "") -> void:
 	if state == LevelState.COMPLETE:
 		return
 	state = LevelState.COMPLETE
@@ -142,7 +162,7 @@ func _on_level_complete() -> void:
 	if gm and gm.is_final_level():
 		_show_victory_screen()
 	else:
-		_show_post_level_screen()
+		_show_post_level_screen(shard_name)
 
 
 func _on_level_failed() -> void:
@@ -208,6 +228,7 @@ func _show_victory_screen() -> void:
 	var screen := VictoryScreen.new()
 	screen.name = "VictoryScreen"
 	screen.process_mode = Node.PROCESS_MODE_ALWAYS
+	screen.size = get_viewport().get_visible_rect().size
 	screen.new_run_pressed.connect(_on_new_run_pressed)
 	screen.menu_pressed.connect(_on_menu_pressed)
 
@@ -218,10 +239,10 @@ func _show_victory_screen() -> void:
 	add_child(canvas)
 
 
-func _show_post_level_screen() -> void:
+func _show_post_level_screen(shard_name: String = "") -> void:
 	var screen := Control.new()
 	screen.name = "PostLevelScreen"
-	screen.set_anchors_preset(Control.PRESET_FULL_RECT)
+	screen.size = get_viewport().get_visible_rect().size
 	screen.process_mode = Node.PROCESS_MODE_ALWAYS
 
 	# Semi-transparent background
@@ -230,11 +251,14 @@ func _show_post_level_screen() -> void:
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	screen.add_child(bg)
 
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	screen.add_child(center)
+
 	var vbox := VBoxContainer.new()
-	vbox.set_anchors_preset(Control.PRESET_CENTER)
 	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	vbox.add_theme_constant_override("separation", 20)
-	screen.add_child(vbox)
+	center.add_child(vbox)
 
 	var title := Label.new()
 	title.text = "Boss Defeated!"
@@ -251,6 +275,14 @@ func _show_post_level_screen() -> void:
 	soul_label.add_theme_font_size_override("font_size", 16)
 	soul_label.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3))
 	vbox.add_child(soul_label)
+
+	if shard_name != "":
+		var shard_label := Label.new()
+		shard_label.text = "Shard Acquired: %s" % shard_name
+		shard_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		shard_label.add_theme_font_size_override("font_size", 16)
+		shard_label.add_theme_color_override("font_color", Color(0.6, 0.4, 1.0))
+		vbox.add_child(shard_label)
 
 	var next_btn := Button.new()
 	next_btn.text = "Next Level"
@@ -275,6 +307,7 @@ func _show_failure_screen() -> void:
 	var screen := FailureScreen.new()
 	screen.name = "FailureScreen"
 	screen.process_mode = Node.PROCESS_MODE_ALWAYS
+	screen.size = get_viewport().get_visible_rect().size
 	screen.retry_pressed.connect(_on_retry_pressed)
 	screen.menu_pressed.connect(_on_menu_pressed)
 

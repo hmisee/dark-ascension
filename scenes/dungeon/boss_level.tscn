@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/systems/level_manager.gd" id="1_lvlmgr"]
 [ext_resource type="PackedScene" uid="uid://b8yqm5xvnw7r8" path="res://scenes/player.tscn" id="2_player"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/ui/survival_timer_hud.gd" id="4_timer"]
 [ext_resource type="Shader" path="res://assets/shaders/dungeon_floor_bg.gdshader" id="5_bgshader"]
 [ext_resource type="Script" path="res://scripts/systems/scrolling_background.gd" id="6_bgscript"]
+[ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="7_pause"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bg"]
 shader = ExtResource("5_bgshader")
@@ -42,3 +43,16 @@ layer = 5
 
 [node name="SurvivalTimerHUD" type="Label" parent="HUDLayer"]
 script = ExtResource("4_timer")
+
+[node name="PauseLayer" type="CanvasLayer" parent="."]
+layer = 20
+process_mode = 3
+
+[node name="PauseMenu" type="Control" parent="PauseLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_pause")

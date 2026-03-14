@@ -1,6 +1,10 @@
 extends Control
 
 func _on_start_button_pressed():
+	LevelManager._saved_run_state = {}
+	var gm = Autoloads.game_manager()
+	if gm:
+		gm.start_new_run()
 	get_tree().change_scene_to_file("res://scenes/dungeon/boss_level.tscn")
 
 func _on_options_button_pressed():

@@ -33,12 +33,15 @@ func _build_ui() -> void:
 	add_child(bg)
 
 	# Centered layout
+	var center := CenterContainer.new()
+	center.set_anchors_preset(PRESET_FULL_RECT)
+	add_child(center)
+
 	var vbox := VBoxContainer.new()
 	vbox.name = "Root"
-	vbox.set_anchors_preset(PRESET_CENTER)
 	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	vbox.add_theme_constant_override("separation", 24)
-	add_child(vbox)
+	center.add_child(vbox)
 
 	# Congratulatory title
 	title_label = Label.new()
