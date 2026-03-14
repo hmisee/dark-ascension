@@ -24,11 +24,15 @@ func _physics_process(delta):
 			find_player()
 		return
 	
-	var distance_to_player = global_position.distance_to(player.global_position)
+	var target = get_chase_target()
+	if not target:
+		return
+	
+	var distance_to_target = global_position.distance_to(target.global_position)
 	
 	attack_timer -= delta
 	
-	if distance_to_player <= attack_range:
+	if distance_to_target <= attack_range:
 		# In range — stop and attack
 		velocity = Vector2.ZERO
 		if attack_timer <= 0:
@@ -36,7 +40,7 @@ func _physics_process(delta):
 			attack_timer = attack_cooldown
 		move_and_slide()
 	else:
-		# Chase player
+		# Chase target
 		move_toward_player()
 
 func perform_attack():

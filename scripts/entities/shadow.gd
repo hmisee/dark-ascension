@@ -32,7 +32,17 @@ func _ready():
 	current_health = max_health
 	add_to_group("shadow")
 	animated_sprite.modulate = TEAL_TINT
+	_style_health_bar()
 	update_health_bar()
+
+func _style_health_bar():
+	if health_bar:
+		var fill := StyleBoxFlat.new()
+		fill.bg_color = Color(0.8, 0.1, 0.1)
+		health_bar.add_theme_stylebox_override("fill", fill)
+		var bg := StyleBoxFlat.new()
+		bg.bg_color = Color(0.2, 0.2, 0.2)
+		health_bar.add_theme_stylebox_override("background", bg)
 
 func _physics_process(delta):
 	if is_dead or not player:

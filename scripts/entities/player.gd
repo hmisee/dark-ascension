@@ -15,6 +15,7 @@ signal player_died
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var shadow_ui = $CanvasLayer/ShadowCooldownUI
+@onready var health_bar = $HealthBar
 
 var attack_timer: float = 0.0
 var last_direction: Vector2 = Vector2.RIGHT
@@ -32,6 +33,8 @@ func _ready():
 		animated_sprite.play("idle")
 	add_to_group("player")
 	current_health = max_health
+	_style_health_bar()
+	update_health_bar()
 	_setup_resurrection_system()
 	_setup_soul_energy_hud()
 	# Register with stat bonus applier
@@ -204,6 +207,7 @@ func spawn_projectile():
 
 func take_damage(amount: float):
 	current_health -= amount
+	update_health_bar()
 	print("Player took %.1f damage! Health: %.1f/%.1f" % [amount, current_health, max_health])
 	
 	# Visual feedback
@@ -211,6 +215,19 @@ func take_damage(amount: float):
 	
 	if current_health <= 0:
 		die()
+
+func update_health_bar():
+	if health_bar:
+		health_bar.value = (current_health / max_health) * 100
+
+func _style_health_bar():
+	if health_bar:
+		var fill := StyleBoxFlat.new()
+		fill.bg_color = Color(0.8, 0.1, 0.1)
+		health_bar.add_theme_stylebox_override("fill", fill)
+		var bg := StyleBoxFlat.new()
+		bg.bg_color = Color(0.2, 0.2, 0.2)
+		health_bar.add_theme_stylebox_override("background", bg)
 
 func flash_damage():
 	animated_sprite.modulate = Color(1, 0.3, 0.3)
