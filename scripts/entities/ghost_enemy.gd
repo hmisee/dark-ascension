@@ -23,6 +23,8 @@ func _ready():
 		projectile_scene = load("res://scenes/enemy_projectile.tscn")
 
 func _physics_process(delta):
+	if is_dead:
+		return
 	if not player:
 		find_player()
 		return
@@ -33,9 +35,11 @@ func _physics_process(delta):
 	if distance_to_player < min_distance:
 		move_away_from_player()
 	elif distance_to_player > attack_range:
-		move_toward_player(delta)
+		move_toward_player()
 	else:
 		velocity = Vector2.ZERO
+		if animated_sprite.animation != "idle":
+			animated_sprite.play("idle")
 		move_and_slide()
 	
 	# Attack logic
@@ -47,18 +51,18 @@ func _physics_process(delta):
 func move_away_from_player():
 	var direction = (global_position - player.global_position).normalized()
 	velocity = direction * move_speed
-	
-	# Flip sprite
-	if direction.x < 0:
-		sprite.flip_h = true
-	else:
-		sprite.flip_h = false
-	
+	animated_sprite.flip_h = direction.x < 0
+	if animated_sprite.animation != "walk":
+		animated_sprite.play("walk")
 	move_and_slide()
 
 func shoot_at_player():
 	if not projectile_scene or not player:
 		return
+	
+	# Play attack animation if available
+	if animated_sprite.sprite_frames and animated_sprite.sprite_frames.has_animation("attack"):
+		animated_sprite.play("attack")
 	
 	var projectile = projectile_scene.instantiate()
 	get_parent().add_child(projectile)

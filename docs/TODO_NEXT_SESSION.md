@@ -7,51 +7,38 @@ Implement proper enemy sprites and create a shadow companion system with visual 
 
 ## Part 1: Enemy Sprite Integration
 
-### 1.1 Find/Acquire Enemy Sprites
-**Goal**: Get sprite sheets for Skeleton and Ghost enemies
+### 1.1 Download Sprites (Both FREE)
 
-**Options**:
-- [ ] Search CraftPix for matching chibi-style enemies
-- [ ] Check itch.io for free/paid sprite packs
-- [ ] Look for OpenGameArt.org resources
-- [ ] Consider AI-generated sprites if needed
+#### Skeleton Enemy
+- **Pack**: Free Chibi Skeleton Warrior Character Sprites
+- **URL**: https://craftpix.net/freebies/chibi-skeleton-warrior-character-sprites/
+- **Style**: Chibi vector, matches necromancer perfectly
+- **Animations**: idle, walk, run, slash, kick, throw, jump, hurt, dying
+- **Format**: PNG (individual frames)
+- **Action**: Download and extract to `assets/sprites/enemies/skeleton/`
 
-**Requirements**:
-- Must match necromancer's chibi art style
-- Need idle and walk animations minimum
-- Attack animation optional but nice
-- Death animation optional but nice
-- Prefer 900x900 or similar size (to match necromancer)
+#### Ghost/Wraith Enemy
+- **Pack**: Free Wraith Tiny Style 2D Sprites
+- **URL**: https://craftpix.net/freebies/free-wraith-tiny-style-2d-sprites/
+- **Style**: Tiny/chibi style, good match
+- **Animations**: idle, idle blink, walk, attack, cast spells, hurt, dying, taunt
+- **Format**: PNG (individual frames)
+- **Action**: Download and extract to `assets/sprites/enemies/wraith/`
 
-**Recommended Search Terms**:
-- "chibi skeleton sprite"
-- "chibi ghost sprite"
-- "cute undead sprites"
-- "pixel art skeleton animated"
-
-### 1.2 Import Enemy Sprites
-**Location**: `assets/sprites/enemies/`
-
-**Structure**:
+### 1.2 Expected Folder Structure After Download
 ```
 assets/sprites/enemies/
 ├── skeleton/
-│   ├── idle/
-│   ├── walk/
-│   ├── attack/ (optional)
-│   └── death/ (optional)
-└── ghost/
-    ├── idle/
-    ├── walk/
-    ├── attack/ (optional)
-    └── death/ (optional)
+│   ├── idle/       (PNG frames)
+│   ├── walk/       (PNG frames)
+│   ├── attack/     (PNG frames - use "slashing")
+│   └── death/      (PNG frames - use "dying")
+└── wraith/
+    ├── idle/       (PNG frames)
+    ├── walk/       (PNG frames)
+    ├── attack/     (PNG frames - use "attacking" or "casting")
+    └── death/      (PNG frames - use "dying")
 ```
-
-**Tasks**:
-- [ ] Create folder structure
-- [ ] Import skeleton sprite sheets
-- [ ] Import ghost sprite sheets
-- [ ] Verify import settings in Godot (2D Pixel, no filter)
 
 ### 1.3 Update Enemy Scenes
 **Files to modify**:
