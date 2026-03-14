@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ghost001"]
 
 [ext_resource type="Script" uid="uid://bklglqpel1ai3" path="res://scripts/entities/ghost_enemy.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://souldrop001" path="res://scenes/soul_drop.tscn" id="soul_drop"]
 [ext_resource type="Texture2D" uid="uid://duedhn4ga0vvq" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_000.png" id="2_5kc64"]
 [ext_resource type="Texture2D" uid="uid://5mogcrwgas13" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_001.png" id="3_s7wei"]
 [ext_resource type="Texture2D" uid="uid://d38elxvo2s56l" path="res://assets/sprites/enemies/wraith/attack/Wraith_03_Attack_002.png" id="4_xn3k8"]
@@ -236,6 +237,8 @@ radius = 14.0
 collision_layer = 4
 collision_mask = 17
 script = ExtResource("1")
+soul_value = 15
+soul_drop_scene = ExtResource("soul_drop")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1721336104]
 scale = Vector2(0.15, 0.15)

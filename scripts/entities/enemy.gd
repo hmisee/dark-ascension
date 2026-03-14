@@ -7,6 +7,8 @@ class_name Enemy
 @export var move_speed: float = 80.0
 @export var damage: float = 10.0
 @export var contact_damage: float = 5.0
+@export var soul_value: int = 10
+@export var soul_drop_scene: PackedScene
 
 @onready var health_bar = $HealthBar
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -66,11 +68,23 @@ func update_health_bar():
 func die():
 	is_dead = true
 	velocity = Vector2.ZERO
+	# Spawn soul drop at death position
+	_spawn_soul_drop()
 	# Play death animation if available, otherwise just free
 	if animated_sprite.sprite_frames and animated_sprite.sprite_frames.has_animation("death"):
 		animated_sprite.play("death")
 		await animated_sprite.animation_finished
 	queue_free()
+
+func _spawn_soul_drop():
+	var scene = soul_drop_scene
+	if not scene:
+		scene = load("res://scenes/soul_drop.tscn")
+	if scene:
+		var drop = scene.instantiate()
+		drop.soul_value = soul_value
+		drop.global_position = global_position
+		get_tree().current_scene.add_child(drop)
 
 func _on_body_entered(body):
 	if body.has_method("take_damage"):

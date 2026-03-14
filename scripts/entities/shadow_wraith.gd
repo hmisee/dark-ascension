@@ -6,6 +6,7 @@ class_name ShadowWraith
 @export var projectile_scene: PackedScene
 
 func _ready():
+	shadow_type = "wraith"
 	# Behind player: negative X offset (behind relative to aim direction)
 	formation_offset = Vector2(-70, 0)
 	attack_range = 200.0

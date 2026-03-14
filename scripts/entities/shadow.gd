@@ -3,6 +3,8 @@ class_name Shadow
 
 # Base shadow companion - follows player in formation and attacks nearby enemies
 
+signal shadow_died(shadow_type: String)
+
 @export var follow_speed: float = 180.0
 @export var formation_offset: Vector2 = Vector2.ZERO  # Set by subclass
 @export var attack_cooldown: float = 1.2
@@ -21,6 +23,10 @@ var current_health: float
 var attack_timer: float = 0.0
 var is_dead: bool = false
 var target_enemy: Node2D = null
+var shadow_type: String = ""  # Set by subclasses: "skeleton" or "wraith"
+var is_weakened: bool = false
+var regen_rate: float = 5.0
+var _weakened_pulse_time: float = 0.0
 
 func _ready():
 	current_health = max_health
@@ -31,6 +37,8 @@ func _ready():
 func _physics_process(delta):
 	if is_dead or not player:
 		return
+	if is_weakened:
+		_process_weakened_state(delta)
 	follow_player()
 	attack_timer -= delta
 	if attack_timer <= 0:
@@ -97,7 +105,7 @@ func take_damage(amount: float):
 func flash_damage():
 	animated_sprite.modulate = Color(1, 0.3, 0.3)
 	await get_tree().create_timer(0.1).timeout
-	if not is_dead:
+	if not is_dead and not is_weakened:
 		animated_sprite.modulate = TEAL_TINT
 
 func update_health_bar():
@@ -110,4 +118,40 @@ func die():
 	if animated_sprite.sprite_frames and animated_sprite.sprite_frames.has_animation("death"):
 		animated_sprite.play("death")
 		await animated_sprite.animation_finished
-	queue_free()
+	# Hide and disable instead of queue_free so we can resurrect later
+	visible = false
+	set_physics_process(false)
+	set_process(false)
+	shadow_died.emit(shadow_type)
+
+func resurrect_at(pos: Vector2) -> void:
+	global_position = pos
+	is_dead = false
+	current_health = max_health * 0.5
+	is_weakened = true
+	_weakened_pulse_time = 0.0
+	velocity = Vector2.ZERO
+	attack_timer = 0.0
+	target_enemy = null
+	visible = true
+	set_physics_process(true)
+	set_process(true)
+	update_health_bar()
+	if animated_sprite.sprite_frames and animated_sprite.sprite_frames.has_animation("idle"):
+		animated_sprite.play("idle")
+
+func _process_weakened_state(delta: float) -> void:
+	# Regenerate HP
+	current_health = min(max_health, current_health + regen_rate * delta)
+	update_health_bar()
+	# Exit weakened state when fully healed
+	if current_health >= max_health:
+		is_weakened = false
+		_weakened_pulse_time = 0.0
+		animated_sprite.modulate = TEAL_TINT
+		return
+	# Pulsing teal tint visual while weakened
+	_weakened_pulse_time += delta
+	var pulse = (sin(_weakened_pulse_time * 4.0) + 1.0) / 2.0  # oscillates 0..1
+	var dimmed_teal = TEAL_TINT.darkened(0.3)
+	animated_sprite.modulate = dimmed_teal.lerp(TEAL_TINT, pulse)

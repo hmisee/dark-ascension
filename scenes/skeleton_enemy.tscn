@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://skeleton001"]
 
 [ext_resource type="Script" uid="uid://7afb7loii8uy" path="res://scripts/entities/skeleton_enemy.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://souldrop001" path="res://scenes/soul_drop.tscn" id="soul_drop"]
 [ext_resource type="Texture2D" uid="uid://dshhh6kius11b" path="res://assets/sprites/enemies/skeleton/attack/0_Skeleton_Warrior_Slashing_000.png" id="2_4bsy3"]
 [ext_resource type="Texture2D" uid="uid://b2agpanp7d2r7" path="res://assets/sprites/enemies/skeleton/attack/0_Skeleton_Warrior_Slashing_001.png" id="3_dg8u8"]
 [ext_resource type="Texture2D" uid="uid://crc5m3x02uw1j" path="res://assets/sprites/enemies/skeleton/attack/0_Skeleton_Warrior_Slashing_002.png" id="4_icgk1"]
@@ -308,6 +309,8 @@ radius = 16.0
 collision_layer = 4
 collision_mask = 17
 script = ExtResource("1")
+soul_value = 10
+soul_drop_scene = ExtResource("soul_drop")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1903102145]
 scale = Vector2(0.1, 0.1)

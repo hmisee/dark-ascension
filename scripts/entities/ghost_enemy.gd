@@ -15,6 +15,7 @@ func _ready():
 	max_health = 20.0
 	move_speed = 60.0
 	contact_damage = 5.0
+	soul_value = 15
 	current_health = max_health
 	update_health_bar()
 	

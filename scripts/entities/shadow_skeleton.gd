@@ -4,6 +4,7 @@ class_name ShadowSkeleton
 # Melee shadow - positions in FRONT of player, close-range attacker
 
 func _ready():
+	shadow_type = "skeleton"
 	# Front of player: positive X offset (in front relative to aim direction)
 	formation_offset = Vector2(60, 0)
 	attack_range = 80.0

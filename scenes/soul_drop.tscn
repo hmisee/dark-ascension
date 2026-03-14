@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://souldrop001"]
+
+[ext_resource type="Script" path="res://scripts/entities/soul_drop.gd" id="1_script"]
+
+[sub_resource type="Gradient" id="Gradient_glow"]
+colors = PackedColorArray(0.4, 0.9, 1, 1, 0.2, 0.5, 0.8, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_orb"]
+width = 16
+height = 16
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+fill = 1
+gradient = SubResource("Gradient_glow")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 8.0
+
+[node name="SoulDrop" type="Area2D"]
+collision_layer = 128
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.5, 0.8, 1, 0.9)
+texture = SubResource("GradientTexture2D_orb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pickup")
