@@ -11,6 +11,7 @@ var _test_files: Array[String] = [
 	"res://tests/test_shard_inventory.gd",
 	"res://tests/test_shard_shop.gd",
 	"res://tests/test_shadow_resurrection.gd",
+	"res://tests/test_options_manager.gd",
 ]
 
 var _passed := 0

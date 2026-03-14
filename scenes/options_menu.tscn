@@ -1,0 +1,139 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/options_menu.gd" id="1_script"]
+
+[node name="OptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -250.0
+offset_right = 200.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+horizontal_alignment = 1
+
+[node name="DisplaySection" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DisplayModeLabel" type="Label" parent="PanelContainer/VBoxContainer/DisplaySection"]
+layout_mode = 2
+text = "Display Mode"
+
+[node name="DisplayModeOption" type="OptionButton" parent="PanelContainer/VBoxContainer/DisplaySection"]
+layout_mode = 2
+item_count = 3
+popup/item_0/text = "Fullscreen"
+popup/item_1/text = "Borderless Window"
+popup/item_1/id = 1
+popup/item_2/text = "Windowed"
+popup/item_2/id = 2
+
+[node name="ResolutionSection" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ResolutionLabel" type="Label" parent="PanelContainer/VBoxContainer/ResolutionSection"]
+layout_mode = 2
+text = "Resolution"
+
+[node name="ResolutionOption" type="OptionButton" parent="PanelContainer/VBoxContainer/ResolutionSection"]
+layout_mode = 2
+item_count = 4
+popup/item_0/text = "1920x1080"
+popup/item_1/text = "1600x900"
+popup/item_1/id = 1
+popup/item_2/text = "1280x720"
+popup/item_2/id = 2
+popup/item_3/text = "1024x576"
+popup/item_3/id = 3
+
+[node name="KeyBindSection" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="KeyBindLabel" type="Label" parent="PanelContainer/VBoxContainer/KeyBindSection"]
+layout_mode = 2
+text = "Key Bindings"
+
+[node name="MoveUpRow" type="HBoxContainer" parent="PanelContainer/VBoxContainer/KeyBindSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/KeyBindSection/MoveUpRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Move Up"
+
+[node name="RebindButton" type="Button" parent="PanelContainer/VBoxContainer/KeyBindSection/MoveUpRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "W"
+
+[node name="MoveDownRow" type="HBoxContainer" parent="PanelContainer/VBoxContainer/KeyBindSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/KeyBindSection/MoveDownRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Move Down"
+
+[node name="RebindButton" type="Button" parent="PanelContainer/VBoxContainer/KeyBindSection/MoveDownRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "S"
+
+[node name="MoveLeftRow" type="HBoxContainer" parent="PanelContainer/VBoxContainer/KeyBindSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/KeyBindSection/MoveLeftRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Move Left"
+
+[node name="RebindButton" type="Button" parent="PanelContainer/VBoxContainer/KeyBindSection/MoveLeftRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "A"
+
+[node name="MoveRightRow" type="HBoxContainer" parent="PanelContainer/VBoxContainer/KeyBindSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/KeyBindSection/MoveRightRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Move Right"
+
+[node name="RebindButton" type="Button" parent="PanelContainer/VBoxContainer/KeyBindSection/MoveRightRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "D"
+
+[node name="ButtonRow" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ApplyButton" type="Button" parent="PanelContainer/VBoxContainer/ButtonRow"]
+layout_mode = 2
+text = "Apply"
+
+[node name="CancelButton" type="Button" parent="PanelContainer/VBoxContainer/ButtonRow"]
+layout_mode = 2
+text = "Cancel"
