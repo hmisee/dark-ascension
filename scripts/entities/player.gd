@@ -10,6 +10,7 @@ signal player_died
 @export var attack_cooldown: float = 1.0
 @export var attack_animation_duration: float = 0.3
 @export var max_health: float = 100.0
+@export var aim_range: float = 500.0  # Max range to detect enemies for auto-aim
 @export var shadow_skeleton_scene: PackedScene = preload("res://scenes/shadow_skeleton.tscn")
 @export var shadow_wraith_scene: PackedScene = preload("res://scenes/shadow_wraith.tscn")
 
@@ -140,13 +141,13 @@ func _physics_process(delta):
 func handle_movement():
 	var input_direction = Vector2.ZERO
 	
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("move_right"):
 		input_direction.x += 1
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("move_left"):
 		input_direction.x -= 1
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("move_down"):
 		input_direction.y += 1
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed("move_up"):
 		input_direction.y -= 1
 	
 	if input_direction.length() > 0:
@@ -163,16 +164,48 @@ func handle_movement():
 	move_and_slide()
 
 func update_aim_direction():
-	# Get direction from player to mouse cursor
-	var mouse_pos = get_global_mouse_position()
-	var direction_to_mouse = (mouse_pos - global_position).normalized()
-	last_direction = direction_to_mouse
+	# Auto-aim at the closest enemy within range
+	var closest_enemy = _find_closest_enemy()
+	if closest_enemy:
+		last_direction = (closest_enemy.global_position - global_position).normalized()
+	else:
+		# No enemy nearby — aim in movement direction (or keep last direction)
+		var input_dir = Vector2.ZERO
+		if Input.is_action_pressed("move_right"):
+			input_dir.x += 1
+		if Input.is_action_pressed("move_left"):
+			input_dir.x -= 1
+		if Input.is_action_pressed("move_down"):
+			input_dir.y += 1
+		if Input.is_action_pressed("move_up"):
+			input_dir.y -= 1
+		if input_dir.length() > 0:
+			last_direction = input_dir.normalized()
 	
-	# Flip sprite based on mouse position
-	if direction_to_mouse.x > 0:
-		animated_sprite.flip_h = false  # Face right
-	elif direction_to_mouse.x < 0:
-		animated_sprite.flip_h = true   # Face left
+	# Flip sprite based on aim direction
+	if last_direction.x > 0:
+		animated_sprite.flip_h = false
+	elif last_direction.x < 0:
+		animated_sprite.flip_h = true
+
+func _find_closest_enemy() -> Node2D:
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	var closest: Node2D = null
+	var closest_dist: float = aim_range
+	
+	for enemy in enemies:
+		if not is_instance_valid(enemy) or not enemy is Node2D:
+			continue
+		if enemy.has_method("is_dead") and enemy.is_dead():
+			continue
+		# Also skip enemies with is_dead property (not method)
+		if "is_dead" in enemy and enemy.is_dead:
+			continue
+		var dist = global_position.distance_to(enemy.global_position)
+		if dist < closest_dist:
+			closest_dist = dist
+			closest = enemy
+	return closest
 
 func handle_attack_animation(delta):
 	if is_playing_attack:
