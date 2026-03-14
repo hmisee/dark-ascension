@@ -55,6 +55,7 @@
 [ext_resource type="Texture2D" uid="uid://dxi7q3oommxy8" path="res://assets/sprites/characters/necromancer_chibi/walk/0_Necromancer_of_the_Shadow_Walking_021.png" id="41_51ujp"]
 [ext_resource type="Texture2D" uid="uid://mlbfs2wkeome" path="res://assets/sprites/characters/necromancer_chibi/walk/0_Necromancer_of_the_Shadow_Walking_022.png" id="42_tk41t"]
 [ext_resource type="Texture2D" uid="uid://64nu8frydfca" path="res://assets/sprites/characters/necromancer_chibi/walk/0_Necromancer_of_the_Shadow_Walking_023.png" id="43_fuw3a"]
+[ext_resource type="Script" path="res://scripts/ui/shadow_cooldown_ui.gd" id="44_shui"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hax0n"]
 atlas = ExtResource("2_4r5pv")
@@ -244,6 +245,8 @@ animations = [{
 radius = 16.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1219696816]
+collision_layer = 1
+collision_mask = 4
 script = ExtResource("1_player")
 move_speed = null
 
@@ -258,3 +261,82 @@ frame_progress = 1.0
 shape = SubResource("CircleShape2D_1")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1779229208]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ShadowCooldownUI" type="Control" parent="CanvasLayer"]
+script = ExtResource("44_shui")
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -80.0
+offset_right = 250.0
+offset_bottom = -10.0
+grow_vertical = 0
+
+[node name="HBox" type="HBoxContainer" parent="CanvasLayer/ShadowCooldownUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="SkeletonPanel" type="PanelContainer" parent="CanvasLayer/ShadowCooldownUI/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/ShadowCooldownUI/HBox/SkeletonPanel"]
+layout_mode = 2
+
+[node name="Icon" type="Label" parent="CanvasLayer/ShadowCooldownUI/HBox/SkeletonPanel/VBox"]
+layout_mode = 2
+text = "⚔"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NameLabel" type="Label" parent="CanvasLayer/ShadowCooldownUI/HBox/SkeletonPanel/VBox"]
+layout_mode = 2
+text = "Skeleton"
+horizontal_alignment = 1
+
+[node name="CooldownLabel" type="Label" parent="CanvasLayer/ShadowCooldownUI/HBox/SkeletonPanel/VBox"]
+layout_mode = 2
+text = "READY"
+horizontal_alignment = 1
+
+[node name="CooldownBar" type="ProgressBar" parent="CanvasLayer/ShadowCooldownUI/HBox/SkeletonPanel/VBox"]
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="WraithPanel" type="PanelContainer" parent="CanvasLayer/ShadowCooldownUI/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/ShadowCooldownUI/HBox/WraithPanel"]
+layout_mode = 2
+
+[node name="Icon" type="Label" parent="CanvasLayer/ShadowCooldownUI/HBox/WraithPanel/VBox"]
+layout_mode = 2
+text = "🏹"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NameLabel" type="Label" parent="CanvasLayer/ShadowCooldownUI/HBox/WraithPanel/VBox"]
+layout_mode = 2
+text = "Wraith"
+horizontal_alignment = 1
+
+[node name="CooldownLabel" type="Label" parent="CanvasLayer/ShadowCooldownUI/HBox/WraithPanel/VBox"]
+layout_mode = 2
+text = "READY"
+horizontal_alignment = 1
+
+[node name="CooldownBar" type="ProgressBar" parent="CanvasLayer/ShadowCooldownUI/HBox/WraithPanel/VBox"]
+layout_mode = 2
+value = 100.0
+show_percentage = false

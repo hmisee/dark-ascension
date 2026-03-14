@@ -10,8 +10,10 @@ class_name Player
 @export var max_health: float = 100.0
 @export var shadow_skeleton_scene: PackedScene = preload("res://scenes/shadow_skeleton.tscn")
 @export var shadow_wraith_scene: PackedScene = preload("res://scenes/shadow_wraith.tscn")
+@export var shadow_respawn_cooldown: float = 10.0
 
 @onready var animated_sprite = $AnimatedSprite2D
+@onready var shadow_ui = $CanvasLayer/ShadowCooldownUI
 
 var attack_timer: float = 0.0
 var last_direction: Vector2 = Vector2.RIGHT
@@ -20,30 +22,74 @@ var attack_animation_timer: float = 0.0
 var current_health: float
 var shadows: Array = []
 
+# Shadow respawn tracking
+var shadow_skeleton_alive: bool = false
+var shadow_wraith_alive: bool = false
+var skeleton_respawn_timer: float = 0.0
+var wraith_respawn_timer: float = 0.0
+
 func _ready():
 	if animated_sprite.sprite_frames != null:
-		animated_sprite.play("default")
+		animated_sprite.play("idle")
 	add_to_group("player")
 	current_health = max_health
 	# Spawn shadows after one frame so the scene tree is ready
 	call_deferred("spawn_shadows")
 
 func spawn_shadows():
-	_spawn_shadow(shadow_skeleton_scene)
-	_spawn_shadow(shadow_wraith_scene)
+	_spawn_shadow(shadow_skeleton_scene, "skeleton")
+	_spawn_shadow(shadow_wraith_scene, "wraith")
 
-func _spawn_shadow(scene: PackedScene):
+func _spawn_shadow(scene: PackedScene, type: String):
 	var shadow = scene.instantiate()
 	shadow.player = self
 	shadow.global_position = global_position
+	shadow.tree_exiting.connect(_on_shadow_died.bind(type))
 	get_parent().add_child(shadow)
 	shadows.append(shadow)
+	if type == "skeleton":
+		shadow_skeleton_alive = true
+	elif type == "wraith":
+		shadow_wraith_alive = true
+	update_shadow_ui()
+
+func _on_shadow_died(type: String):
+	if type == "skeleton":
+		shadow_skeleton_alive = false
+		skeleton_respawn_timer = shadow_respawn_cooldown
+	elif type == "wraith":
+		shadow_wraith_alive = false
+		wraith_respawn_timer = shadow_respawn_cooldown
+	# Clean up dead shadows from array
+	shadows = shadows.filter(func(s): return is_instance_valid(s) and not s.is_queued_for_deletion())
+	update_shadow_ui()
+
+func handle_shadow_respawns(delta):
+	if not shadow_skeleton_alive:
+		skeleton_respawn_timer -= delta
+		if skeleton_respawn_timer <= 0:
+			_spawn_shadow(shadow_skeleton_scene, "skeleton")
+	
+	if not shadow_wraith_alive:
+		wraith_respawn_timer -= delta
+		if wraith_respawn_timer <= 0:
+			_spawn_shadow(shadow_wraith_scene, "wraith")
+	
+	update_shadow_ui()
+
+func update_shadow_ui():
+	if shadow_ui:
+		shadow_ui.update_cooldowns(
+			shadow_skeleton_alive, skeleton_respawn_timer, shadow_respawn_cooldown,
+			shadow_wraith_alive, wraith_respawn_timer, shadow_respawn_cooldown
+		)
 
 func _physics_process(delta):
 	handle_movement()
 	handle_auto_attack(delta)
 	handle_attack_animation(delta)
 	update_aim_direction()
+	handle_shadow_respawns(delta)
 
 func handle_movement():
 	var input_direction = Vector2.ZERO
