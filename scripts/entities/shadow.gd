@@ -137,7 +137,7 @@ func resurrect_at(pos: Vector2) -> void:
 	set_physics_process(true)
 	set_process(true)
 	update_health_bar()
-	if animated_sprite.sprite_frames and animated_sprite.sprite_frames.has_animation("idle"):
+	if animated_sprite and animated_sprite.sprite_frames and animated_sprite.sprite_frames.has_animation("idle"):
 		animated_sprite.play("idle")
 
 func _process_weakened_state(delta: float) -> void:
