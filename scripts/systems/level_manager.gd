@@ -10,7 +10,7 @@ enum LevelState { INITIALIZING, WAVE_PHASE, BOSS_PHASE, COMPLETE, FAILED }
 signal level_completed
 signal level_failed
 
-@export var survival_time: float = 20.0
+@export var survival_time: float = 240.0
 @export var boss_spawn_distance: float = 400.0
 
 var time_remaining: float = 0.0
@@ -66,6 +66,10 @@ func start_level() -> void:
 	time_remaining = survival_time
 	state = LevelState.WAVE_PHASE
 
+	var am = Autoloads.audio_manager()
+	if am:
+		am.play_bgm("wave")
+
 
 func _physics_process(delta: float) -> void:
 	if state == LevelState.WAVE_PHASE:
@@ -77,6 +81,10 @@ func _physics_process(delta: float) -> void:
 
 func _start_boss_phase() -> void:
 	state = LevelState.BOSS_PHASE
+
+	var am = Autoloads.audio_manager()
+	if am:
+		am.play_bgm("boss")
 
 	# Stop enemy spawner and clear all regular enemies
 	if enemy_spawner:
@@ -148,6 +156,10 @@ func _on_level_complete(shard_name: String = "") -> void:
 		return
 	state = LevelState.COMPLETE
 
+	var am = Autoloads.audio_manager()
+	if am:
+		am.play_bgm("menu")
+
 	# Award relic
 	var gm = Autoloads.game_manager()
 	if gm:
@@ -169,6 +181,10 @@ func _on_level_failed() -> void:
 	if state != LevelState.WAVE_PHASE and state != LevelState.BOSS_PHASE:
 		return
 	state = LevelState.FAILED
+
+	var am = Autoloads.audio_manager()
+	if am:
+		am.play_bgm("menu")
 
 	# Remove boss if still alive
 	if is_instance_valid(boss):

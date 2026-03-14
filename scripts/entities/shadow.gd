@@ -124,6 +124,9 @@ func update_health_bar():
 
 func die():
 	is_dead = true
+	var am = Autoloads.audio_manager()
+	if am:
+		am.play_sfx("shadow_death")
 	velocity = Vector2.ZERO
 	if animated_sprite.sprite_frames and animated_sprite.sprite_frames.has_animation("death"):
 		animated_sprite.play("death")

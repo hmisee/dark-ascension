@@ -8,7 +8,7 @@ class_name ShardShop
 signal shop_updated(offers: Array)
 
 @export var offer_count: int = 5
-@export var reroll_cost: int = 20
+@export var reroll_cost: int = 80
 
 ## Reference to the player's shard inventory — must be set before use.
 var inventory_ref: Node = null

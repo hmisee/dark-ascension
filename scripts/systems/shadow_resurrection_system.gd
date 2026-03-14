@@ -10,7 +10,7 @@ signal shadow_ready(shadow_type: String, cost: int)
 signal resurrection_failed(shadow_type: String, reason: String)
 
 # Per-shadow-type configuration
-var resurrection_costs: Dictionary = {"skeleton": 30, "wraith": 50}
+var resurrection_costs: Dictionary = {"skeleton": 100, "wraith": 175}
 var resurrection_cooldowns: Dictionary = {"skeleton": 8.0, "wraith": 12.0}
 
 # Cooldown state: shadow_type -> remaining seconds (only present while on cooldown or eligible)

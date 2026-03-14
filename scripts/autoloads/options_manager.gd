@@ -30,6 +30,9 @@ const SETTINGS_PATH: String = "user://settings.cfg"
 var display_mode: int = 0
 var resolution_index: int = 0
 var key_bindings: Dictionary = {}
+var master_volume: int = 100
+var music_volume: int = 100
+var sfx_volume: int = 100
 
 
 # --- Lifecycle ---
@@ -40,6 +43,9 @@ func _ready() -> void:
 	apply_display_mode(display_mode)
 	apply_resolution(resolution_index)
 	apply_key_bindings()
+	apply_volume("Master", master_volume)
+	apply_volume("Music", music_volume)
+	apply_volume("SFX", sfx_volume)
 
 
 ## Resets all settings state to default values.
@@ -47,6 +53,9 @@ func reset_to_defaults() -> void:
 	display_mode = 0
 	resolution_index = 0
 	key_bindings = DEFAULT_BINDINGS.duplicate()
+	master_volume = 100
+	music_volume = 100
+	sfx_volume = 100
 
 
 # --- Display Settings ---
@@ -129,6 +138,28 @@ func rebind_key(action: String, new_keycode: int) -> void:
 	apply_key_bindings()
 
 
+# --- Volume ---
+
+## Converts a linear 0-100 volume value to decibels.
+func _volume_to_db(value: int) -> float:
+	return linear_to_db(value / 100.0)
+
+
+## Applies a volume value (0-100) to the named AudioServer bus.
+## Clamps value to [0, 100]. Mutes the bus when value is 0.
+func apply_volume(bus_name: String, value: int) -> void:
+	value = clampi(value, 0, 100)
+	var bus_idx := AudioServer.get_bus_index(bus_name)
+	if bus_idx == -1:
+		push_warning("OptionsManager: Audio bus '%s' not found." % bus_name)
+		return
+	if value == 0:
+		AudioServer.set_bus_mute(bus_idx, true)
+	else:
+		AudioServer.set_bus_mute(bus_idx, false)
+		AudioServer.set_bus_volume_db(bus_idx, _volume_to_db(value))
+
+
 # --- Persistence & Snapshots ---
 
 func save_settings() -> void:
@@ -137,6 +168,9 @@ func save_settings() -> void:
 	config.set_value("display", "resolution_index", resolution_index)
 	for action_name: String in ACTIONS:
 		config.set_value("input", action_name, key_bindings[action_name])
+	config.set_value("audio", "master_volume", master_volume)
+	config.set_value("audio", "music_volume", music_volume)
+	config.set_value("audio", "sfx_volume", sfx_volume)
 	var err := config.save(SETTINGS_PATH)
 	if err != OK:
 		push_warning("OptionsManager: Failed to save settings to %s (error %d)" % [SETTINGS_PATH, err])
@@ -167,6 +201,11 @@ func load_settings() -> bool:
 			keycode = DEFAULT_BINDINGS[action_name]
 		key_bindings[action_name] = keycode
 
+	# Audio settings — default to 100, clamp to [0, 100]
+	master_volume = clampi(config.get_value("audio", "master_volume", 100), 0, 100)
+	music_volume = clampi(config.get_value("audio", "music_volume", 100), 0, 100)
+	sfx_volume = clampi(config.get_value("audio", "sfx_volume", 100), 0, 100)
+
 	return true
 
 
@@ -174,7 +213,10 @@ func get_settings_snapshot() -> Dictionary:
 	return {
 		"display_mode": display_mode,
 		"resolution_index": resolution_index,
-		"key_bindings": key_bindings.duplicate()
+		"key_bindings": key_bindings.duplicate(),
+		"master_volume": master_volume,
+		"music_volume": music_volume,
+		"sfx_volume": sfx_volume
 	}
 
 
@@ -185,3 +227,9 @@ func apply_snapshot(snapshot: Dictionary) -> void:
 	apply_display_mode(display_mode)
 	apply_resolution(resolution_index)
 	apply_key_bindings()
+	master_volume = snapshot["master_volume"]
+	music_volume = snapshot["music_volume"]
+	sfx_volume = snapshot["sfx_volume"]
+	apply_volume("Master", master_volume)
+	apply_volume("Music", music_volume)
+	apply_volume("SFX", sfx_volume)

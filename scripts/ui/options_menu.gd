@@ -14,6 +14,10 @@ signal closed
 @onready var move_left_button: Button = $PanelContainer/VBoxContainer/KeyBindSection/MoveLeftRow/RebindButton
 @onready var move_right_button: Button = $PanelContainer/VBoxContainer/KeyBindSection/MoveRightRow/RebindButton
 
+@onready var master_volume_slider: HSlider = $PanelContainer/VBoxContainer/AudioSection/MasterVolumeRow/HSlider
+@onready var music_volume_slider: HSlider = $PanelContainer/VBoxContainer/AudioSection/MusicVolumeRow/HSlider
+@onready var sfx_volume_slider: HSlider = $PanelContainer/VBoxContainer/AudioSection/SFXVolumeRow/HSlider
+
 @onready var apply_button: Button = $PanelContainer/VBoxContainer/ButtonRow/ApplyButton
 @onready var cancel_button: Button = $PanelContainer/VBoxContainer/ButtonRow/CancelButton
 
@@ -44,12 +48,17 @@ func _ready() -> void:
 	move_left_button.pressed.connect(_on_rebind_button_pressed.bind("move_left"))
 	move_right_button.pressed.connect(_on_rebind_button_pressed.bind("move_right"))
 
+	master_volume_slider.value_changed.connect(_on_master_volume_changed)
+	music_volume_slider.value_changed.connect(_on_music_volume_changed)
+	sfx_volume_slider.value_changed.connect(_on_sfx_volume_changed)
+
 	# Auto-open since this is now a standalone scene
 	_snapshot = _options_manager.get_settings_snapshot()
 	_pending_action = ""
 	display_mode_option.selected = _options_manager.display_mode
 	resolution_option.selected = _options_manager.resolution_index
 	_refresh_rebind_buttons()
+	_refresh_volume_sliders()
 
 
 # --- Public ---
@@ -62,6 +71,7 @@ func open() -> void:
 	display_mode_option.selected = _options_manager.display_mode
 	resolution_option.selected = _options_manager.resolution_index
 	_refresh_rebind_buttons()
+	_refresh_volume_sliders()
 
 	visible = true
 
@@ -71,6 +81,9 @@ func open() -> void:
 func _on_apply_pressed() -> void:
 	_options_manager.apply_display_mode(display_mode_option.selected)
 	_options_manager.apply_resolution(resolution_option.selected)
+	_options_manager.master_volume = int(master_volume_slider.value)
+	_options_manager.music_volume = int(music_volume_slider.value)
+	_options_manager.sfx_volume = int(sfx_volume_slider.value)
 	_options_manager.save_settings()
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
@@ -115,3 +128,21 @@ func _refresh_rebind_buttons() -> void:
 	for action_name: String in _action_buttons:
 		var btn: Button = _action_buttons[action_name]
 		btn.text = OS.get_keycode_string(_options_manager.key_bindings[action_name])
+
+
+func _refresh_volume_sliders() -> void:
+	master_volume_slider.value = _options_manager.master_volume
+	music_volume_slider.value = _options_manager.music_volume
+	sfx_volume_slider.value = _options_manager.sfx_volume
+
+
+func _on_master_volume_changed(value: float) -> void:
+	_options_manager.apply_volume("Master", int(value))
+
+
+func _on_music_volume_changed(value: float) -> void:
+	_options_manager.apply_volume("Music", int(value))
+
+
+func _on_sfx_volume_changed(value: float) -> void:
+	_options_manager.apply_volume("SFX", int(value))

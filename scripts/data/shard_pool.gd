@@ -11,8 +11,8 @@ static func get_all_shards() -> Array[Shard]:
 	bone.base_value = -8.0
 	bone.adjacency_bonus_percent = 25.0
 	bone.receive_directions = [Shard.Direction.DOWN, Shard.Direction.RIGHT] as Array[Shard.Direction]
-	bone.purchase_price = 40
-	bone.sell_value = 15
+	bone.purchase_price = 150
+	bone.sell_value = 50
 	shards.append(bone)
 
 	# Blood Crystal — Damage Amp
@@ -22,8 +22,8 @@ static func get_all_shards() -> Array[Shard]:
 	blood.base_value = 12.0
 	blood.adjacency_bonus_percent = 25.0
 	blood.receive_directions = [Shard.Direction.UP, Shard.Direction.DOWN, Shard.Direction.LEFT, Shard.Direction.RIGHT] as Array[Shard.Direction]
-	blood.purchase_price = 80
-	blood.sell_value = 30
+	blood.purchase_price = 300
+	blood.sell_value = 100
 	shards.append(blood)
 
 	# Swift Essence — Attack Speed
@@ -33,8 +33,8 @@ static func get_all_shards() -> Array[Shard]:
 	swift.base_value = 10.0
 	swift.adjacency_bonus_percent = 25.0
 	swift.receive_directions = [Shard.Direction.LEFT, Shard.Direction.RIGHT] as Array[Shard.Direction]
-	swift.purchase_price = 50
-	swift.sell_value = 20
+	swift.purchase_price = 200
+	swift.sell_value = 70
 	shards.append(swift)
 
 	# Vital Marrow — Healing Rate
@@ -44,8 +44,8 @@ static func get_all_shards() -> Array[Shard]:
 	vital.base_value = 3.0
 	vital.adjacency_bonus_percent = 25.0
 	vital.receive_directions = [Shard.Direction.UP, Shard.Direction.DOWN] as Array[Shard.Direction]
-	vital.purchase_price = 45
-	vital.sell_value = 18
+	vital.purchase_price = 175
+	vital.sell_value = 60
 	shards.append(vital)
 
 	# Soul Stone — Max Health
@@ -55,8 +55,8 @@ static func get_all_shards() -> Array[Shard]:
 	soul.base_value = 15.0
 	soul.adjacency_bonus_percent = 25.0
 	soul.receive_directions = [Shard.Direction.UP, Shard.Direction.LEFT] as Array[Shard.Direction]
-	soul.purchase_price = 55
-	soul.sell_value = 22
+	soul.purchase_price = 220
+	soul.sell_value = 75
 	shards.append(soul)
 
 	# Phantom Shard — Movement Speed
@@ -66,8 +66,8 @@ static func get_all_shards() -> Array[Shard]:
 	phantom.base_value = 8.0
 	phantom.adjacency_bonus_percent = 25.0
 	phantom.receive_directions = [Shard.Direction.DOWN, Shard.Direction.LEFT, Shard.Direction.RIGHT] as Array[Shard.Direction]
-	phantom.purchase_price = 60
-	phantom.sell_value = 24
+	phantom.purchase_price = 240
+	phantom.sell_value = 80
 	shards.append(phantom)
 
 	# Reaper's Eye — Soul Bonus
@@ -77,8 +77,8 @@ static func get_all_shards() -> Array[Shard]:
 	reaper.base_value = 15.0
 	reaper.adjacency_bonus_percent = 25.0
 	reaper.receive_directions = [Shard.Direction.UP] as Array[Shard.Direction]
-	reaper.purchase_price = 35
-	reaper.sell_value = 12
+	reaper.purchase_price = 130
+	reaper.sell_value = 45
 	shards.append(reaper)
 
 	# Death's Edge — Crit Chance
@@ -88,8 +88,8 @@ static func get_all_shards() -> Array[Shard]:
 	death.base_value = 5.0
 	death.adjacency_bonus_percent = 25.0
 	death.receive_directions = [Shard.Direction.UP, Shard.Direction.RIGHT, Shard.Direction.DOWN] as Array[Shard.Direction]
-	death.purchase_price = 70
-	death.sell_value = 28
+	death.purchase_price = 275
+	death.sell_value = 90
 	shards.append(death)
 
 	return shards

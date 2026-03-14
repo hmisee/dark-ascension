@@ -9,3 +9,6 @@ static func soul_energy_manager() -> Node:
 
 static func game_manager() -> Node:
 	return Engine.get_main_loop().root.get_node("GameManager")
+
+static func audio_manager() -> Node:
+	return Engine.get_main_loop().root.get_node("AudioManager")

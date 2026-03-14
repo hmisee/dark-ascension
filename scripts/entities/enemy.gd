@@ -82,6 +82,10 @@ func take_damage(amount: float):
 	flash_damage()
 	if current_health <= 0:
 		call_deferred("die")
+	else:
+		var am = Autoloads.audio_manager()
+		if am:
+			am.play_sfx("enemy_hit")
 
 func flash_damage():
 	animated_sprite.modulate = Color(1, 0.3, 0.3)
@@ -95,6 +99,9 @@ func update_health_bar():
 
 func die():
 	is_dead = true
+	var am = Autoloads.audio_manager()
+	if am:
+		am.play_sfx("enemy_death")
 	velocity = Vector2.ZERO
 	# Spawn soul drop at death position
 	_spawn_soul_drop()

@@ -229,6 +229,9 @@ func play_attack_animation():
 		attack_animation_timer = attack_animation_duration
 
 func spawn_projectile():
+	var am = Autoloads.audio_manager()
+	if am:
+		am.play_sfx("player_attack")
 	var projectile = projectile_scene.instantiate()
 	get_parent().add_child(projectile)
 	
@@ -242,6 +245,14 @@ func take_damage(amount: float):
 	current_health -= amount
 	update_health_bar()
 	print("Player took %.1f damage! Health: %.1f/%.1f" % [amount, current_health, max_health])
+	
+	# SFX feedback
+	var am = Autoloads.audio_manager()
+	if am:
+		if current_health <= 0:
+			am.play_sfx("player_death")
+		else:
+			am.play_sfx("player_hit")
 	
 	# Visual feedback
 	flash_damage()

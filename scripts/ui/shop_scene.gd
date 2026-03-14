@@ -12,6 +12,9 @@ var relic_grid_ui: RelicGridUI
 
 
 func _ready() -> void:
+	var am = Autoloads.audio_manager()
+	if am:
+		am.play_bgm("menu")
 	_build_ui()
 	_generate_shop_offers()
 

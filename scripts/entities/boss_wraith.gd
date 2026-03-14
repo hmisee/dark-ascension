@@ -5,17 +5,20 @@ signal boss_defeated
 
 func _ready():
 	super._ready()
-	max_health = 250.0
-	move_speed = 50.0
-	contact_damage = 15.0
-	soul_value = 75
-	attack_cooldown = 1.5
+	max_health = 600.0
+	move_speed = 60.0
+	contact_damage = 25.0
+	soul_value = 200
+	attack_cooldown = 1.2
 	current_health = max_health
 	scale = Vector2(2.0, 2.0)
 	update_health_bar()
 
 func die():
 	is_dead = true
+	var am = Autoloads.audio_manager()
+	if am:
+		am.play_sfx("boss_defeat")
 	velocity = Vector2.ZERO
 	_spawn_soul_drop()
 	# Play death animation before signaling defeat

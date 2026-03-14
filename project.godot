@@ -25,6 +25,7 @@ config/icon="res://icon.svg"
 GameManager="*res://scripts/autoloads/game_manager.gd"
 SoulEnergyManager="*res://scripts/autoloads/soul_energy_manager.gd"
 OptionsManager="*res://scripts/autoloads/options_manager.gd"
+AudioManager="*res://scripts/autoloads/audio_manager.gd"
 
 [display]
 
@@ -63,3 +64,7 @@ move_down={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+
+[audio]
+
+bus_layout="res://default_bus_layout.tres"

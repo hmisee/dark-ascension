@@ -1,5 +1,10 @@
 extends Control
 
+func _ready():
+	var am = Autoloads.audio_manager()
+	if am:
+		am.play_bgm("menu")
+
 func _on_start_button_pressed():
 	LevelManager._saved_run_state = {}
 	var gm = Autoloads.game_manager()
