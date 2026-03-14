@@ -6,7 +6,7 @@ class_name RelicGridUI
 ## Click a shard in inventory to select it, then click an empty slot to place it.
 ## Click an occupied slot to remove the shard back to inventory.
 
-const SLOT_SIZE := Vector2(120, 100)
+const SLOT_SIZE := Vector2(70, 60)
 const GRID_SPACING := 4
 const TEAL := Color(0.3, 1.0, 0.9)
 const SLOT_EMPTY_COLOR := Color(0.15, 0.15, 0.2)
@@ -54,8 +54,8 @@ func _build_ui() -> void:
 	# Main vertical layout
 	var root := VBoxContainer.new()
 	root.name = "Root"
-	root.anchor_right = 1.0
-	root.anchor_bottom = 1.0
+	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	root.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	add_child(root)
 
 	# Title
@@ -134,7 +134,7 @@ func _refresh() -> void:
 
 func _refresh_grid() -> void:
 	var relic: RelicGrid = Autoloads.game_manager().relic_grid
-	var bonuses_map := relic.calculate_all_bonuses()
+	var _bonuses_map := relic.calculate_all_bonuses()
 
 	for row in RelicGrid.GRID_SIZE:
 		for col in RelicGrid.GRID_SIZE:
@@ -163,7 +163,7 @@ func _refresh_inventory() -> void:
 		child.queue_free()
 	inventory_buttons.clear()
 
-	var shards := Autoloads.game_manager().shard_inventory.get_all()
+	var shards = Autoloads.game_manager().shard_inventory.get_all()
 	if shards.is_empty():
 		var empty_label := Label.new()
 		empty_label.text = "(no shards)"
@@ -188,14 +188,14 @@ func _refresh_inventory() -> void:
 
 
 func _refresh_bonuses() -> void:
-	var bonuses := Autoloads.game_manager().relic_grid.calculate_all_bonuses()
+	var bonuses = Autoloads.game_manager().relic_grid.calculate_all_bonuses()
 	if bonuses.is_empty():
 		bonuses_label.text = "No bonuses active"
 		return
 	var parts: Array[String] = []
 	for stat_type in bonuses:
-		var name: String = STAT_NAMES.get(stat_type, "???")
-		parts.append("%s: %.1f" % [name, bonuses[stat_type]])
+		var stat_name: String = STAT_NAMES.get(stat_type, "???")
+		parts.append("%s: %.1f" % [stat_name, bonuses[stat_type]])
 	bonuses_label.text = "Bonuses: " + ", ".join(parts)
 
 

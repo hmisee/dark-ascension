@@ -62,7 +62,7 @@ func _refresh() -> void:
 	for child in list_container.get_children():
 		child.queue_free()
 
-	var shards := Autoloads.game_manager().shard_inventory.get_all()
+	var shards = Autoloads.game_manager().shard_inventory.get_all()
 	if shards.is_empty():
 		var empty := Label.new()
 		empty.text = "(no shards)"

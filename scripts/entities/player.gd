@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name Player
 
+signal player_died
+
 # Player movement and control
 
 @export var move_speed: float = 200.0
@@ -20,6 +22,7 @@ var is_playing_attack: bool = false
 var attack_animation_timer: float = 0.0
 var current_health: float
 var shadows: Array = []
+var managed_level: bool = false
 
 # Shadow resurrection system
 var resurrection_system: ShadowResurrectionSystem
@@ -60,7 +63,7 @@ func spawn_shadows():
 	if Autoloads.game_manager().stat_bonus_applier:
 		Autoloads.game_manager().stat_bonus_applier.apply_bonuses()
 
-func _spawn_shadow(scene: PackedScene, type: String):
+func _spawn_shadow(scene: PackedScene, _type: String):
 	var shadow = scene.instantiate()
 	shadow.player = self
 	shadow.global_position = global_position
@@ -216,5 +219,7 @@ func flash_damage():
 
 func die():
 	print("Player died!")
-	# Defer scene reload to avoid removing CollisionObjects during physics callback
-	get_tree().call_deferred("reload_current_scene")
+	player_died.emit()
+	if not managed_level:
+		# Defer scene reload to avoid removing CollisionObjects during physics callback
+		get_tree().call_deferred("reload_current_scene")

@@ -53,7 +53,7 @@ func take_damage(amount: float):
 	update_health_bar()
 	flash_damage()
 	if current_health <= 0:
-		die()
+		call_deferred("die")
 
 func flash_damage():
 	animated_sprite.modulate = Color(1, 0.3, 0.3)
@@ -84,7 +84,7 @@ func _spawn_soul_drop():
 		var drop = scene.instantiate()
 		drop.soul_value = soul_value
 		drop.global_position = global_position
-		get_tree().current_scene.add_child(drop)
+		get_tree().current_scene.call_deferred("add_child", drop)
 
 func _on_body_entered(body):
 	if body.has_method("take_damage"):

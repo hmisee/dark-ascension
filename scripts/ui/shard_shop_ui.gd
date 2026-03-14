@@ -5,7 +5,7 @@ class_name ShardShopUI
 ## Shows 5 shard offers in a horizontal row with purchase buttons and a reroll button.
 ## Connects to GameManager.shard_shop for data and SoulEnergyManager for balance checks.
 
-const OFFER_SIZE := Vector2(140, 150)
+const OFFER_SIZE := Vector2(110, 120)
 const TEAL := Color(0.3, 1.0, 0.9)
 const GOLD := Color(1.0, 0.85, 0.3)
 const DIMMED := Color(0.5, 0.5, 0.5)
@@ -57,8 +57,8 @@ func _connect_signals() -> void:
 func _build_ui() -> void:
 	var root := VBoxContainer.new()
 	root.name = "Root"
-	root.anchor_right = 1.0
-	root.anchor_bottom = 1.0
+	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	root.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	add_child(root)
 
 	# Title
@@ -118,7 +118,7 @@ func _refresh_offers() -> void:
 		return
 
 	var souls: int = Autoloads.soul_energy_manager().get_souls()
-	var offers := shop.current_offers
+	var offers = shop.current_offers
 
 	for i in offer_buttons.size():
 		var btn: Button = offer_buttons[i]
@@ -150,7 +150,7 @@ func _refresh_reroll() -> void:
 		return
 
 	var cost: int = shop.reroll_cost
-	var can_afford := Autoloads.soul_energy_manager().get_souls() >= cost
+	var can_afford: bool = Autoloads.soul_energy_manager().get_souls() >= cost
 	reroll_button.text = "Reroll (%d souls)" % cost
 
 	if can_afford:
